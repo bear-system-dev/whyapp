@@ -3,9 +3,13 @@ import bodyParser from 'body-parser';
 import { StatusCodes } from 'http-status-codes';
 import { routes } from './routes';
 import 'dotenv/config';
+import cors from 'cors';
+import helmet from 'helmet';
 
 const server = expres();
 
+server.use(cors({ origin: ['*',] })); //MUDAR PARA APENAS O DOMÍNIO DO FRONT-END ACESSAR
+server.use(helmet());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(routes.miscRoutes);
