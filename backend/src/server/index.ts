@@ -21,7 +21,7 @@ server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err.stack);
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`
     <h1>Error-500</h1>
-    <h3>Erro ao processar sua solicitação</h3>
+    <h3>An error ocurred when processing your request. Please check it out and try again.</h3>
   `);
 });
 

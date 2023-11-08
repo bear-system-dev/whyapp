@@ -15,8 +15,8 @@ const create = async (user: Omit<IUser, 'id'>): Promise<string | Error> => {
       }
     });
 
-    if(!newUser.id) return new Error('Erro ao criar registro');
-    console.log(`New User: ${newUser.id}`);    
+    if (!newUser.id) return new Error('Erro ao criar registro');
+    console.log(`New User: ${newUser.id}`);
     return newUser.id;
 
   } catch (error) {
