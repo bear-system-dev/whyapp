@@ -19,8 +19,8 @@ enum AccountStatus {
 
 model User {
     id String @id @default(uuid())
-    name String
-    email String
+    name String @unique
+    email String @unique
     password String
     account_status AccountStatus @default(INACTIVE)
     profile_img_path String?
@@ -30,6 +30,6 @@ model User {
     updatedAt DateTime @updatedAt
 
     @@index([name, email])
-    @@unique([name, email])
+    //@@unique([name, email]) --> Indica que não pode haver registros com a mesma combinação entre eles
     @@map("Users")
 }
