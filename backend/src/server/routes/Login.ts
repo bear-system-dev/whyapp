@@ -7,4 +7,8 @@ loginRoutes.post('/user/register',
   loginControllers.register
 );
 
+loginRoutes.post('/user/login',
+  loginControllers.login
+);
+
 export { loginRoutes };
