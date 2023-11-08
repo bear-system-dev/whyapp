@@ -12,11 +12,21 @@ const createToken = (payload: object) => {
 
 const verifyToken = (token: string) => {
   if (!process.env.SECRET_KEY) { return new Error('There is no secret key'); }
+  try {
+    const newToken: string = token.replace('Bearer ', '');
+    token = newToken;
+  } catch (error) {
+    console.log(error);
+    return new Error('Incorrect token format');
+  }
   verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) return new Error('An error ocurred during token decoding');
+    if (err) {
+      console.log(err);
+      return new Error('An error ocurred during token decoding');
+    }
     return decoded;
   });
-  return 'Noasdowd';
+  return 'Nada aconteceu?';
 };
 
 export const jwt = { verifyToken, createToken };
