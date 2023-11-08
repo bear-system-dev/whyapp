@@ -5,7 +5,7 @@ const miscRoutes = Router();
 
 miscRoutes.get('/', (req, res) => {
   res.status(StatusCodes.OK).json({
-    message: 'WhyApp - Seu app de comunicação segura e eficiente',
+    message: 'WhyApp - Your secure and efficient comunication app',
     status: 200
   });
 });

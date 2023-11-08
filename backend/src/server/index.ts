@@ -13,6 +13,7 @@ server.use(helmet());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(routes.miscRoutes);
+server.use(routes.loginRoutes);
 
 //Retorna abaixo, em caso de erro do express
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
