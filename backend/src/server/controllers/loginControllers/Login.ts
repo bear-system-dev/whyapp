@@ -19,25 +19,30 @@ export const login = async (req: Request<unknown, unknown, IBodyProps>, res: Res
     message: userByEmail.message,
     status: 500
   });
+  if(!userByEmail) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    message: 'Impossible to get user data.',
+    status: 500
+  });
 
-  if (password != userByEmail?.password) { // ? é o mesmo que: if ( userByEmail ) { ... }
+  const token = services.jwt.createToken({ userId: userByEmail?.id, userName: userByEmail?.name });
+  if (token instanceof Error) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    message: token.message,
+    status: 500
+  });
+
+  const isIqual = await services.bcrypt.compareData(password, userByEmail.password);
+  if (isIqual) {
+    return res.status(StatusCodes.OK).json({
+      message: 'Log in successful',
+      auth: true,
+      token,
+      status: 200,
+    });
+  } else {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       message: 'Incorrect email or password. Please, try again!',
       status: 401
     });
   }
-
-  const token = services.jwt.createToken({userId: userByEmail.id, userName: userByEmail.name});
-  if(token instanceof Error) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    message: token.message,
-    status: 500
-  });
-
-  return res.status(StatusCodes.OK).json({
-    message: 'Log in successful',
-    auth: true,
-    token,
-    status: 200,
-  });
 
 };
