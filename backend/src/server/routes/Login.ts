@@ -11,7 +11,7 @@ loginRoutes.post('/user/register',
 
 loginRoutes.post('/user/login',
   middlewares.apiKeyDetect,
-  loginControllers.login
+  loginControllers.login,
 );
 
 export { loginRoutes };

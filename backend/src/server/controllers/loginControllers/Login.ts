@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IUser } from '../../database/models/User';
 import { StatusCodes } from 'http-status-codes';
 import { userProviders } from '../../database/providers/userProviders';
+import { services } from '../../shared/services';
 
 interface IBodyProps extends Omit<IUser, 'id' | 'name'> { }
 
@@ -26,9 +27,17 @@ export const login = async (req: Request<unknown, unknown, IBodyProps>, res: Res
     });
   }
 
+  const token = services.jwt.createToken({userId: userByEmail.id, userName: userByEmail.name});
+  if(token instanceof Error) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    message: token.message,
+    status: 500
+  });
+
   return res.status(StatusCodes.OK).json({
     message: 'Log in successful',
-    status: 200
+    auth: true,
+    token,
+    status: 200,
   });
 
 };
