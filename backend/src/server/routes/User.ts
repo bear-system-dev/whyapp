@@ -4,6 +4,6 @@ import { userControllers } from '../controllers/userControllers';
 const userRoutes = Router();
 
 userRoutes.post('/user/:uuid/account-info', userControllers.getById);
-// userRoutes.post('/user/:uuid/update-account-info');
+userRoutes.put('/user/:uuid/update-account-info', userControllers.updateUserById);
 
 export { userRoutes };
