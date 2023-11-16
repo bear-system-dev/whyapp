@@ -8,6 +8,7 @@ const updateUserById = async (user: IUser): Promise<object | Error> => {
     if (user.password) {
       const hashedUserPassword = await services.bcrypt.hashData(user.password);
       user.password = String(hashedUserPassword);
+      console.log('password: ', user.password);
     }
     const updatedUser = await prisma.user.update({
       where: {
@@ -18,15 +19,6 @@ const updateUserById = async (user: IUser): Promise<object | Error> => {
         name: user.name,
         password: user.password,
         profile_img_path: user.profile_img_path,
-      },
-      select: {
-        account_status: true,
-        email: true,
-        name: true,
-        password: false,
-        profile_img_path: true,
-        createdAt: true,
-        updatedAt: true
       }
     });
     return updatedUser;
