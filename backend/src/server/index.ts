@@ -1,12 +1,13 @@
-import expres, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { StatusCodes } from 'http-status-codes';
 import { routes } from './routes';
 import 'dotenv/config';
 import cors from 'cors';
 import helmet from 'helmet';
+import path from 'path';
 
-const server = expres();
+const server = express();
 
 server.use(cors({ origin: ['*',] })); //MUDAR PARA APENAS O DOMÍNIO DO FRONT-END ACESSAR
 server.use(helmet());
@@ -15,6 +16,9 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(routes.miscRoutes);
 server.use(routes.loginRoutes);
 server.use(routes.userRoutes);
+
+server.use('/uploads/userProfileImages',
+  express.static(path.join(__dirname, '..', '..', 'uploads', 'userProfileImages')));
 
 //Retorna abaixo, em caso de erro do express
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
