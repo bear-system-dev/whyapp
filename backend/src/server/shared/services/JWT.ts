@@ -12,21 +12,15 @@ const createToken = (payload: object) => {
 
 const verifyToken = (token: string) => {
   if (!process.env.SECRET_KEY) { return new Error('There is no secret key'); }
+  if (!token.includes('Bearer ')) return new Error('Incorrect token format');
+  token = token.replace('Bearer ', '');
   try {
-    const newToken: string = token.replace('Bearer ', '');
-    token = newToken;
+    const decoded = verify(token, process.env.SECRET_KEY);
+    return decoded;
   } catch (error) {
     console.log(error);
-    return new Error('Incorrect token format');
+    return new Error('Invalid token');
   }
-  verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) {
-      console.log(err);
-      return new Error('An error ocurred during token decoding');
-    }
-    return decoded;
-  });
-  return 'Nada aconteceu?';
 };
 
 export const jwt = { verifyToken, createToken };
