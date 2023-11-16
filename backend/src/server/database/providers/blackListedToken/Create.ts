@@ -19,7 +19,6 @@ export const create = async (token: IBlackListedToken): Promise<Error | number> 
     });
 
     console.log(`BlackListedTokens: ${tokenId.id}`);
-    if(tokenId.id === 10) console.log('10 TOKENS CADASTRADOS, REMOVER TODOS...');
     
     return tokenId.id;
   } catch (error) {
