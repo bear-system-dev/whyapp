@@ -20,6 +20,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     message: 'Something went wrong',
     status: 500
   });
-  
+
   next();
 };

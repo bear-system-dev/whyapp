@@ -14,4 +14,9 @@ loginRoutes.post('/user/login',
   loginControllers.login,
 );
 
+loginRoutes.post('/user/logout',
+  middlewares.apiKeyDetect,
+  middlewares.verifyToken,
+  loginControllers.logout);
+
 export { loginRoutes };

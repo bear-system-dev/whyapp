@@ -13,23 +13,32 @@ datasource db {
 // }
 
 enum AccountStatus {
-    ACTIVE
-    INACTIVE
+  ACTIVE
+  INACTIVE
+}
+
+model blackListedToken {
+  id        Int      @id @default(autoincrement())
+  token     String
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@index([token])
 }
 
 model User {
-    id String @id @default(uuid())
-    name String @unique
-    email String @unique
-    password String
-    account_status AccountStatus @default(INACTIVE)
-    profile_img_path String?
-    messages String?
-    chats String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id               String        @id @default(uuid())
+  name             String        @unique
+  email            String        @unique
+  password         String
+  account_status   AccountStatus @default(INACTIVE)
+  profile_img_path String?
+  messages         String?
+  chats            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
-    @@index([name, email])
-    //@@unique([name, email]) --> Indica que não pode haver registros com a mesma combinação entre eles
-    @@map("Users")
+  @@index([name, email])
+  //@@unique([name, email]) --> Indica que não pode haver registros com a mesma combinação entre eles
+  @@map("Users")
 }

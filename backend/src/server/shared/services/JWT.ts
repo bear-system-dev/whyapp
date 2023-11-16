@@ -12,7 +12,7 @@ const createToken = (payload: object) => {
 
 const verifyToken = (token: string) => {
   if (!process.env.SECRET_KEY) { return new Error('There is no secret key'); }
-  if (!token.includes('Bearer ')) return new Error('Incorrect token format');
+  if (!token.includes('Bearer ')) { return new Error('Incorrect token format'); }
   token = token.replace('Bearer ', '');
   try {
     const decoded = verify(token, process.env.SECRET_KEY);
