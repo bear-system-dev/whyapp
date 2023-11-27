@@ -4,17 +4,17 @@ import { middlewares } from '../shared/middlewares';
 
 const loginRoutes = Router();
 
-loginRoutes.post('/user/register',
+loginRoutes.post('/user/auth/register',
   middlewares.apiKeyDetect,
   loginControllers.register
 );
 
-loginRoutes.post('/user/login',
+loginRoutes.post('/user/auth/login',
   middlewares.apiKeyDetect,
   loginControllers.login,
 );
 
-loginRoutes.post('/user/logout',
+loginRoutes.post('/user/auth/logout',
   middlewares.apiKeyDetect,
   middlewares.verifyToken,
   loginControllers.logout);
