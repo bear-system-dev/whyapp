@@ -1,3 +1,4 @@
+import { createServer } from 'http';
 import express, { NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { StatusCodes } from 'http-status-codes';
@@ -32,4 +33,6 @@ server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 server.disable('x-powered-by'); //Não mostra que foi desenvolvido com o express (Não é o mais seguro)
 
-export { server };
+const httpServer = createServer(server);
+
+export { httpServer };
