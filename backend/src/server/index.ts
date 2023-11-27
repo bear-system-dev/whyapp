@@ -10,7 +10,7 @@ import path from 'path';
 
 const server = express();
 
-server.use(cors({ origin: ['*',] })); //MUDAR PARA APENAS O DOMÍNIO DO FRONT-END ACESSAR
+server.use(cors({ origin: '*' })); //MUDAR PARA APENAS O DOMÍNIO DO FRONT-END ACESSAR
 server.use(helmet());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
@@ -34,5 +34,6 @@ server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 server.disable('x-powered-by'); //Não mostra que foi desenvolvido com o express (Não é o mais seguro)
 
 const httpServer = createServer(server);
+import './shared/services/websockets/index';
 
 export { httpServer };
