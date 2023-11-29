@@ -1,0 +1,12 @@
+    Ao criar um chat entre dois usuários, criar um simples algoritmo que verifique qual usuário tem o 
+maior ID para que assim se crie o nome do chat com a junção desses 2 IDs separados por *//* na chave 
+*nameWhen2Users*, por exemplo:
+
+    userID-1: 1234 --> Menor
+    userId-2: 1235 --> Maior
+
+    logo, 1235 > 1234
+    
+    então, nameWhen2Users = '1235//1234'
+
+PENSAR MELHOR EM COMO CADASTRAR USUÁRIOS, MESSAGENS E CHATS LEVANDO EM CONSIDERAÇÃO A EMISSÃO DE EVENTOS DO SOCKETIO

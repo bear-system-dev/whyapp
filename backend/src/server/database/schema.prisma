@@ -27,18 +27,49 @@ model blackListedToken {
 }
 
 model User {
-  id               String        @id @default(uuid())
-  name             String        @unique
-  email            String        @unique
+  id               String         @id @default(uuid())
+  name             String         @unique
+  email            String         @unique
   password         String
-  account_status   AccountStatus @default(INACTIVE)
+  account_status   AccountStatus  @default(INACTIVE)
   profile_img_path String?
-  messages         String?
-  chats            String?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  messages         Message[]
+  chats            UsersInChats[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
-  @@index([name, email])
   //@@unique([name, email]) --> Indica que não pode haver registros com a mesma combinação entre eles
+  @@index([name, email])
   @@map("Users")
+}
+
+model UsersInChats {
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  chat           Chat     @relation(fields: [chatId], references: [id])
+  chatId         String
+  assignedAt     DateTime @default(now())
+  assignedByUser String
+
+  @@id([userId, chatId])
+}
+
+model Chat {
+  id             String         @id @default(uuid())
+  nameWhen2Users String
+  name           String
+  messages       Message[]
+  users          UsersInChats[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
