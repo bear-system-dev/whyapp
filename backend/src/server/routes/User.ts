@@ -25,7 +25,7 @@ userRoutes.post('/user/uploads/profile-image',
   userControllers.uploadProfileImage,
 );
 
-userRoutes.post('/user/send-message/:fromUuid/:toUuid/private-text',
+userRoutes.post('/user/send-message/:fromUuid/:toUuid/private-text/:chatId',
   middlewares.apiKeyDetect,
   middlewares.verifyToken,
   userControllers.sendPrivateMessage

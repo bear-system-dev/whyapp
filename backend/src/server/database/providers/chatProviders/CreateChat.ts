@@ -1,11 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { IChat } from '../../models/Chat';
 const prisma = new PrismaClient();
 
-interface IChatProps extends Omit<IChat, 'id'> { }
-
-const createChat = async (chat: IChatProps) => {
-  const chatName = chat.name;
+const createChat = async (chatName: string) => {
   try {
     const newChatId = await prisma.chat.create({
       data: {

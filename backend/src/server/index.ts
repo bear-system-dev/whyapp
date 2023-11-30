@@ -1,5 +1,6 @@
 import { createServer } from 'http';
 import express, { NextFunction, Request, Response } from 'express';
+import session from 'express-session';
 import bodyParser from 'body-parser';
 import { StatusCodes } from 'http-status-codes';
 import { routes } from './routes';
@@ -7,6 +8,8 @@ import 'dotenv/config';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+
+if (!process.env.SECRET_KEY) throw new Error('[ServerConfig] No SECRET_KEY found in this enviroment');
 
 const server = express();
 
@@ -17,6 +20,16 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(routes.miscRoutes);
 server.use(routes.loginRoutes);
 server.use(routes.userRoutes);
+server.use(routes.chatRoutes);
+server.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: true,
+    maxAge: 1000 * 60 * 60 * 2 //2h
+  }
+}));
 
 server.use('/uploads/userProfileImages',
   express.static(path.join(__dirname, '..', '..', 'uploads', 'userProfileImages')));

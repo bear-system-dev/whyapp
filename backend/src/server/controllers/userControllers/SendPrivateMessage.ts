@@ -4,22 +4,10 @@ import { chatProviders } from '../../database/providers/chatProviders';
 
 export const sendPrivateMessage = async (req: Request, res: Response): Promise<Response> => {
   const { messageInput } = req.body;
-  let { chatName } = req.body;
-  const { fromUuid, toUuid } = req.params;
+  const { fromUuid, toUuid, chatId } = req.params;
 
-  if (!chatName) {
-    const privateChatusers = [];
-    privateChatusers.push(fromUuid, toUuid);
-    privateChatusers.sort();
-    if (privateChatusers.length > 2) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: 'Something went wrong',
-      status: 500
-    });
-    chatName = `${privateChatusers[0]}//${privateChatusers[1]}`;
-  }
-
-  if (!fromUuid || !toUuid) return res.status(StatusCodes.BAD_REQUEST).json({
-    message: 'You need to send both \'from\' and \'to\' UUID\'s',
+  if (!fromUuid || !toUuid || !chatId) return res.status(StatusCodes.BAD_REQUEST).json({
+    message: 'You need to send both \'from\' and \'to\' UUID\'s, and \'chatId\'',
     status: 400
   });
   if (fromUuid === toUuid) return res.status(StatusCodes.BAD_REQUEST).json({
@@ -31,17 +19,16 @@ export const sendPrivateMessage = async (req: Request, res: Response): Promise<R
     status: 400
   });
 
-  const newChatId = await chatProviders.createChat({ fromUuid, toUuid, name: chatName });
-  if (newChatId instanceof Error) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    message: newChatId.message,
+  const newMessageId = await chatProviders.createMessageInChatById(fromUuid, chatId, messageInput);
+  if (newMessageId instanceof Error) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    message: newMessageId.message,
     status: 500
   });
 
   return res.status(StatusCodes.OK).json({
     fromUuid,
     toUuid,
-    newChat: newChatId,
-    chatName,
-    messageInput
+    messageInput,
+    newMessageId
   });
 };
