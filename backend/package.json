@@ -15,7 +15,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "postinstall": "",
+    "postinstall": "tsc",
     "build": "npm install",
     "start": "node build/src/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
