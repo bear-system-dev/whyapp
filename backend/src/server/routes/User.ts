@@ -17,7 +17,7 @@ userRoutes.put('/user/:uuid/update-account-info',
   userControllers.updateUserById);
 
 userRoutes.post('/user/uploads/profile-image',
-  // middlewares.apiKeyDetect, NEEDS REFATOR cuz multipart form (Maybe send it inside headers)
+  middlewares.apiKeyDetect,
   middlewares.verifyToken,
   multer(multerOptions).single('profile-image'),
   userControllers.uploadProfileImage,
