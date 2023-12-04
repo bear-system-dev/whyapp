@@ -9,7 +9,7 @@ export const logout = async (req: Request, res: Response) => {
   let token = req.headers['authorization'] || '';
   if (!token.includes('Bearer ') || token === '') {
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: 'Incorrect token format',
+      errors: 'Incorrect token format',
       status: 401
     });
   }

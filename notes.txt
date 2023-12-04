@@ -9,4 +9,15 @@ maior ID para que assim se crie o nome do chat com a junção desses 2 IDs separ
     
     então, nameWhen2Users = '1235//1234'
 
+  // if (!chatName) {
+  //   const privateChatusers = [];
+  //   privateChatusers.push(fromUuid, toUuid);
+  //   privateChatusers.sort();
+  //   if (privateChatusers.length > 2) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+  //     message: 'Something went wrong',
+  //     status: 500
+  //   });
+  //   chatName = `${privateChatusers[0]}//${privateChatusers[1]}`;
+  // }
+
 PENSAR MELHOR EM COMO CADASTRAR USUÁRIOS, MESSAGENS E CHATS LEVANDO EM CONSIDERAÇÃO A EMISSÃO DE EVENTOS DO SOCKETIO

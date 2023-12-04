@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const createChat = async (chatName: string) => {
+  if (String(chatName).length < 1 || chatName === '') return new Error('ChatName needs at least 1 caractere');
   try {
     const newChatId = await prisma.chat.create({
       data: {
