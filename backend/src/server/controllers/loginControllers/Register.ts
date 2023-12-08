@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { IUser } from '../../database/models/User';
 import { userProviders } from '../../database/providers/userProviders';
+import { serverMessages } from '../../shared/ServerMessages';
 
 interface IBodyProps extends Omit<IUser, 'id'> { }
 
@@ -9,7 +10,7 @@ export const register = async (req: Request<unknown, unknown, IBodyProps>, res: 
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: 'You must send NAME, EMAIL and PASSWORD',
+      message: serverMessages.controllers.login.register.noNameEmailOrPassword,
       status: 400
     });
   }
@@ -24,7 +25,7 @@ export const register = async (req: Request<unknown, unknown, IBodyProps>, res: 
   }
 
   return res.status(StatusCodes.CREATED).json({
-    message: 'New user created successfully',
+    message: serverMessages.controllers.login.register.default,
     newUserId,
     status: 201
   });
