@@ -9,9 +9,9 @@ export interface IUser {
   email: string,
   password: string,
   account_status?: AccountStatus,
-  profile_img_path?: string,
+  profile_img_path?: string | null,
   messages?: string,
   chats?: string,
-  createdAt?: string,
-  updatedAt?: string,
+  createdAt?: Date,
+  updatedAt?: Date,
 }

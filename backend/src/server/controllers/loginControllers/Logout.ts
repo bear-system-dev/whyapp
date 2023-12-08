@@ -2,35 +2,28 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { blackListedToken } from '../../database/providers/blackListedToken';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const MAX_BLACK_LISTED_TOKENS = Number(process.env.MAX_BLACK_LISTED_TOKENS) || 50;
-
 export const logout = async (req: Request, res: Response) => {
+  let tokenId: number | Error = 0;
+  const errors: Array<string> = [];
   let token = req.headers['authorization'] || '';
+
   if (!token.includes('Bearer ') || token === '') {
-    return res.status(StatusCodes.UNAUTHORIZED).json({
-      errors: 'Incorrect token format',
-      status: 401
-    });
+    errors.push('Incorrect token format');
+  } else {
+    token = token.replace('Bearer ', '');
+    tokenId = await blackListedToken.create({ token });
+    if (tokenId instanceof Error) errors.push(tokenId.message);
   }
-  token = token.replace('Bearer ', '');
 
-  const tokenId = await blackListedToken.create({ token });
+  const tokenPosition = await blackListedToken.getByToken(token);
+  if (tokenPosition instanceof Error) errors.push(tokenPosition.message);
+  if (tokenPosition === (null || undefined)) errors.push('Token position returned empty');
 
-  const tokenPosition = Number(await blackListedToken.getByToken(token));
-  console.log(tokenPosition);
-
-  //Apaga tudo
-  // if (tokenPosition) {
-  //   if (tokenPosition > MAX_BLACK_LISTED_TOKENS) {
-  //     const deletedTokens = await blackListedToken.deleteManyByInterval({ startsAfter: 0, endsBefore: tokenPosition });
-  //     console.log({ deletedTokens });
-  //   }
-  // }
-
+  if (errors.length >= 1) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors });
   return res.status(StatusCodes.OK).json({
     message: 'Logged Out successfuly',
     tokenId,
+    tokenPosition,
     status: 200
   });
 };

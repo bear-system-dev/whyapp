@@ -11,27 +11,26 @@ interface IUpdateUserProps {
 }
 
 export const updateUserById = async (req: Request<{ uuid: string }, unknown, IUpdateUserProps>, res: Response) => {
+  const errors: Array<string> = [];
   const { profile_img_path } = req.body;
   const { uuid } = req.params;
-  console.log(uuid);
 
-  if (!uuid) return res.status(StatusCodes.BAD_REQUEST).json({
-    message: 'uuid is required',
-    status: 400
-  });
-  const id = uuid;
+  let id = ''; //Cant set uuid on updateUserById({})
+  if (!uuid) {
+    errors.push('uuid is required');
+  } else {
+    id = uuid;
+  }
 
   let { email, name, password } = req.body;
   if (!email) email = '';
   if (!name) name = '';
   if (!password) password = '';
-  
-  const updatedUser = await userProviders.updateUserById({ id, email, name, password, profile_img_path });
-  if (updatedUser instanceof Error) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    message: updatedUser.message,
-    status: 500
-  });
 
+  const updatedUser = await userProviders.updateUserById({ id, email, name, password, profile_img_path });
+  if (updatedUser instanceof Error) errors.push(updatedUser.message);
+
+  if (errors.length >= 1) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors });
   return res.status(StatusCodes.OK).json({
     updatedUser,
     status: 200

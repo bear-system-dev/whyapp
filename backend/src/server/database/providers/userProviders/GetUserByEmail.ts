@@ -8,7 +8,6 @@ const getUserByEmail = async (email: string) => {
         email: email
       },
     });
-    console.log(userByEmail); 
     return userByEmail;
   } catch (error) {
     console.log(error);
