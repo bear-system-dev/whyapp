@@ -58,6 +58,49 @@ export const serverMessages = {
       },
     },
   },
+  database: {
+    providers: {
+      black_listed_token: {
+        create: {
+          default: '',
+          couldntCreate: 'An Error occured when creating black listed token'
+        },
+        get_by_token: {
+          default: '',
+          couldntVerifyToken: 'An error ocurred verifying token',
+        },
+      },
+      chat: {
+        create: {
+          default: '',
+          errorCreatingChat: 'An error ocurred when creating new chat',
+        },
+        createMessageInChatById: {
+          default: '',
+          noUserIdChatIdOrMessageInput: 'You must send userId, chatId and messageInput',
+          errorCreatingMessageInChat: 'An error ocurrend when creating new message in chat',
+        },
+      },
+      users: {
+        create: {
+          default: '',
+          couldntCreate: 'An error occrured when creating user',
+        },
+        getByEmail: {
+          default: '',
+          couldntSearch: 'An error occrured when searching for user EMAIL',
+        },
+        getById: {
+          default: '',
+          couldntSearch: 'An error occrured when searching for user ID',
+        },
+        updateById: {
+          default: '',
+          couldntUpdate: 'An error occrured when updating user data',
+        },
+      },
+    },
+  },
   shared: {
     middlewares: {
       api_key_detect: {

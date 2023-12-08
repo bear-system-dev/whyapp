@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import { serverMessages } from '../../../shared/ServerMessages';
 const prisma = new PrismaClient();
+
+const notifyMessages = serverMessages.database.providers.black_listed_token.create;
 
 interface IBlackListedToken {
   token: string,
@@ -23,6 +26,6 @@ export const create = async (token: IBlackListedToken): Promise<Error | number> 
     return tokenId.id;
   } catch (error) {
     console.log(error);
-    return new Error('Erro ao criar registro');
+    return new Error(notifyMessages.couldntCreate);
   }
 };

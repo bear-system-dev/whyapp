@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma/client';
+import { serverMessages } from '../../../shared/ServerMessages';
 const prisma = new PrismaClient();
+
+const notifyMessages = serverMessages.database.providers.black_listed_token.get_by_token;
+
 
 export const getByToken = async (token: string) => {
   if (token.includes('Bearer')) { token = token.replace('Bearer ', ''); }
@@ -12,6 +16,6 @@ export const getByToken = async (token: string) => {
     return blackListedToken?.id;
   } catch (error) {
     console.log(error);
-    return new Error('An error ocurred verifying token');
+    return new Error(notifyMessages.couldntVerifyToken);
   }
 };

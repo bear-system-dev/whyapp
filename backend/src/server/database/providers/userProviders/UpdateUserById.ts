@@ -2,6 +2,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import { IUser } from '../../models/User';
 import { services } from '../../../shared/services';
+import { serverMessages } from '../../../shared/ServerMessages';
+
+const notifyMessages = serverMessages.database.providers.users.updateById;
 
 const updateUserById = async (user: IUser): Promise<object | Error> => {
   try {
@@ -24,7 +27,7 @@ const updateUserById = async (user: IUser): Promise<object | Error> => {
     return updatedUser;
   } catch (error) {
     console.log(error);
-    return new Error('An error occured updating user data');
+    return new Error(notifyMessages.couldntUpdate);
   }
 };
 

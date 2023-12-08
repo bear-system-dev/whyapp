@@ -1,7 +1,10 @@
+import { serverMessages } from '../../../shared/ServerMessages';
 import { services } from '../../../shared/services';
 import { IUser } from '../../models/User';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+
+const notifyMessages = serverMessages.database.providers.users.create;
 
 const create = async (user: Omit<IUser, 'id'>): Promise<string | Error> => {
   const hashedPassword = await services.bcrypt.hashData(user.password);
@@ -18,12 +21,12 @@ const create = async (user: Omit<IUser, 'id'>): Promise<string | Error> => {
       }
     });
 
-    if (!newUser.id) return new Error('Erro ao criar registro');
+    if (!newUser.id) return new Error(notifyMessages.couldntCreate);
     console.log(`New User: ${newUser.id}`);
     return newUser.id;
 
   } catch (error) {
-    return new Error('Erro ao criar registro');
+    return new Error(notifyMessages.couldntCreate);
   }
 };
 

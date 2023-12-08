@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import { serverMessages } from '../../../shared/ServerMessages';
 const prisma = new PrismaClient();
+
+const notifyMessages = serverMessages.database.providers.chat.create;
 
 const createChat = async (chatName: string) => {
   if (String(chatName).length < 1 || chatName === '') return new Error('ChatName needs at least 1 caractere');
@@ -16,7 +19,7 @@ const createChat = async (chatName: string) => {
     return newChatId;
   } catch (error) {
     console.log(error);
-    return new Error('An error ocurred when creating new chat');
+    return new Error(notifyMessages.errorCreatingChat);
   }
 
 };
