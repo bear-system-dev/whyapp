@@ -1,4 +1,14 @@
 export const serverMessages = {
+  config: {
+    multer: {
+      default: '',
+      incompatibleImageType: 'Image type not compatible',
+    },
+    socketio: {
+      default: '',
+      noSecretKey: '[SocketConfig] No SECRET_KEY found in this enviroment'
+    }
+  },
   controllers: {
     home: {
       default: 'WhyApp - Your secure and efficient comunication app',
@@ -46,6 +56,44 @@ export const serverMessages = {
         default: '',
         noFile: 'No file was sent'
       },
-    }
+    },
+  },
+  shared: {
+    middlewares: {
+      api_key_detect: {
+        default: '',
+        noKeySent: 'You need your credentials to access this API. Contact the owner',
+        noKeysFoundOnSystem: 'An error occured when processing your crendentials',
+        invalidKey: 'UNAUTHORIZED: invalid or expired API_KEY'
+      },
+      verify_token: {
+        default: '',
+        noToken: 'No authorization token found',
+        expiredToken: 'Expired Token. Please log in',
+        undefinedOrNullDecode: 'Something went wrong'
+      },
+    },
+    services: {
+      websockets: {
+        home: {
+          default: '',
+        },
+        user: {
+          default: '',
+        },
+      },
+      bcrypt: {
+        default: '',
+        couldntHash: 'An error occured during hashing data',
+        couldntCompare: 'An error occured during comparing data',
+      },
+      jwt: {
+        default: '',
+        couldntGenerate: 'An error ocurred during token generation',
+        noSecretKey: 'There is no secret key',
+        incorrectTokenFormat: 'Incorrect token format',
+        invalidToken: 'Invalid token'
+      },
+    },
   },
 };

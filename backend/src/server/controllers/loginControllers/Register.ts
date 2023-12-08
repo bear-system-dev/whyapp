@@ -4,13 +4,15 @@ import { IUser } from '../../database/models/User';
 import { userProviders } from '../../database/providers/userProviders';
 import { serverMessages } from '../../shared/ServerMessages';
 
+const notifyMessages = serverMessages.controllers.login.register;
+
 interface IBodyProps extends Omit<IUser, 'id'> { }
 
 export const register = async (req: Request<unknown, unknown, IBodyProps>, res: Response): Promise<Response> => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: serverMessages.controllers.login.register.noNameEmailOrPassword,
+      message: notifyMessages.noNameEmailOrPassword,
       status: 400
     });
   }
@@ -25,7 +27,7 @@ export const register = async (req: Request<unknown, unknown, IBodyProps>, res: 
   }
 
   return res.status(StatusCodes.CREATED).json({
-    message: serverMessages.controllers.login.register.default,
+    message: notifyMessages.default,
     newUserId,
     status: 201
   });

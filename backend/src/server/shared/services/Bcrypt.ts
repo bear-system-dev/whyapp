@@ -1,5 +1,7 @@
 import { hash, compare } from 'bcrypt';
+import { serverMessages } from '../ServerMessages';
 
+const notifyMessages = serverMessages.shared.services.bcrypt;
 const SALT = 8;
 
 const hashData = async (data: string): Promise<string | Error> => {
@@ -8,7 +10,7 @@ const hashData = async (data: string): Promise<string | Error> => {
     return hashedData;
   } catch (error) {
     console.log(error);
-    return new Error('An error occured during hashing data');
+    return new Error(notifyMessages.couldntHash);
   }
 };
 
@@ -18,7 +20,7 @@ const compareData = async (data: string, hashedData: string): Promise<boolean | 
     return isIqual;
   } catch (error) {
     console.log(error);
-    return new Error('An error occured during comparing data');
+    return new Error(notifyMessages.couldntCompare);
   }
 };
 

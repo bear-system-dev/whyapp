@@ -3,6 +3,8 @@ import { userProviders } from '../../database/providers/userProviders';
 import { StatusCodes } from 'http-status-codes';
 import { serverMessages } from '../../shared/ServerMessages';
 
+const notifyMessages = serverMessages.controllers.users.update_by_id;
+
 interface IUpdateUserProps {
   id: string,
   email?: string,
@@ -18,7 +20,7 @@ export const updateUserById = async (req: Request<{ uuid: string }, unknown, IUp
 
   let id = ''; //Cant set uuid on updateUserById({})
   if (!uuid) {
-    errors.push(serverMessages.controllers.users.update_by_id.noUserId);
+    errors.push(notifyMessages.noUserId);
   } else {
     id = uuid;
   }

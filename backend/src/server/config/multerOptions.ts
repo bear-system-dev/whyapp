@@ -1,6 +1,9 @@
 import { Options, diskStorage } from 'multer';
 import path from 'path';
 import { randomBytes } from 'crypto';
+import { serverMessages } from '../shared/ServerMessages';
+
+const notifyMessages = serverMessages.config.multer;
 
 const storagePath = path.resolve(__dirname, '..', '..', '..', 'uploads', 'userProfileImages');
 
@@ -23,14 +26,14 @@ const multerOptions = {
   },
   fileFilter(req, file, callback) {
     const extensions = [
-      'image/jpeg', 
+      'image/jpeg',
       'image/jpg',
       'image/png',
     ];
     if (extensions.includes(file.mimetype)) {
       callback(null, true);
     } else {
-      callback(new Error('Image type not compatible'));
+      callback(new Error(notifyMessages.incompatibleImageType));
     }
   },
 } as Options;

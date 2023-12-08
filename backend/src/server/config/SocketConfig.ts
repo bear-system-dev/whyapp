@@ -2,8 +2,11 @@ import { Server } from 'socket.io';
 import { httpServer } from '../index';
 import helmet from 'helmet';
 import session from 'express-session';
+import { serverMessages } from '../shared/ServerMessages';
 
-if (!process.env.SECRET_KEY) throw new Error('[SocketConfig] No SECRET_KEY found in this enviroment');
+const notifyMessages = serverMessages.config.socketio;
+
+if (!process.env.SECRET_KEY) throw new Error(notifyMessages.noSecretKey);
 
 enum ENamespaces {
   home = '/',

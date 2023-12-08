@@ -5,13 +5,15 @@ import { userProviders } from '../../database/providers/userProviders';
 import { services } from '../../shared/services';
 import { serverMessages } from '../../shared/ServerMessages';
 
+const notifyMessages = serverMessages.controllers.login.log_in;
+
 interface IBodyProps extends Omit<IUser, 'id' | 'name'> { }
 
 export const login = async (req: Request<unknown, unknown, IBodyProps>, res: Response): Promise<Response> => {
 
   const { email, password } = req.body;
   if (!email || !password) return res.status(StatusCodes.BAD_REQUEST).json({
-    message: serverMessages.controllers.login.log_in.noEmailOrPassword,
+    message: notifyMessages.noEmailOrPassword,
     status: 400
   });
 
@@ -21,7 +23,7 @@ export const login = async (req: Request<unknown, unknown, IBodyProps>, res: Res
     status: 500
   });
   if(!userByEmail) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    message: serverMessages.controllers.login.log_in.noUserByEmailOrUndefined,
+    message: notifyMessages.noUserByEmailOrUndefined,
     status: 500
   });
 
@@ -34,14 +36,14 @@ export const login = async (req: Request<unknown, unknown, IBodyProps>, res: Res
   const isIqual = await services.bcrypt.compareData(password, userByEmail.password);
   if (isIqual) {
     return res.status(StatusCodes.OK).json({
-      message: serverMessages.controllers.login.log_in.default,
+      message: notifyMessages.default,
       auth: true,
       token,
       status: 200,
     });
   } else {
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: serverMessages.controllers.login.log_in.incorrectEmailOrPassword,
+      message: notifyMessages.incorrectEmailOrPassword,
       status: 401
     });
   }
