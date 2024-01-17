@@ -6,7 +6,7 @@
     "url": "https://www.linkedin.com/in/lestter-gabriel-93390218a/"
   },
   "engines": {
-    "node": "18.x.x"
+    "node": "20.x.x"
   },
   "prisma": {
     "schema": "src/server/database/schema.prisma",
